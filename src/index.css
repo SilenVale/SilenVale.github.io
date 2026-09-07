@@ -36,6 +36,17 @@
     scroll-behavior: auto;
   }
 
+  #hero,
+  #about,
+  #experience,
+  #projects,
+  #supplementary,
+  #skills,
+  #building,
+  #social {
+    scroll-margin-top: 56px;
+  }
+
   body {
     font-family: var(--font-body);
     background-color: var(--paper);
@@ -224,6 +235,28 @@
     border-color: var(--news-red);
     background: rgba(155, 28, 28, 0.04);
   }
+
+  .np-compact-nav {
+    position: fixed;
+    top: 0;
+    inset-inline: 0;
+    z-index: 50;
+    height: 44px;
+    background-color: color-mix(in srgb, var(--paper) 95%, transparent);
+    backdrop-filter: blur(4px);
+    border-bottom: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+    box-shadow: 0 1px 3px rgba(26, 22, 18, 0.06);
+    opacity: 0;
+    transform: translateY(-100%);
+    pointer-events: none;
+    transition: opacity 180ms ease, transform 180ms ease;
+  }
+
+  .np-compact-nav.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
 }
 
 @keyframes fadeInUp {
@@ -243,6 +276,9 @@
   *, *::before, *::after {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
+  }
+  .np-compact-nav {
+    transition: none;
   }
   .reveal-hidden,
   .animate-fade-in-up,

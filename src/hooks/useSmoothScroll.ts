@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 
-const NAV_HEIGHT = 72;
+const NAV_HEIGHT = 56;
 
 function easeOutExpo(t: number): number {
   return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
