@@ -5,14 +5,15 @@ import { useActiveSection } from '@/hooks/useActiveSection';
 
 const NAV_ITEMS = [
   { label: '头版', href: '#hero' },
-  { label: '项目', href: '#projects' },
+  { label: '关于', href: '#about' },
   { label: '经历', href: '#experience' },
-  { label: '工作方式', href: '#how-i-work' },
+  { label: '项目', href: '#projects' },
+  { label: '技能', href: '#skills' },
   { label: '公开构建', href: '#building' },
   { label: '联系', href: '#social' },
 ];
 
-const SECTION_IDS = ['hero', 'projects', 'experience', 'how-i-work', 'building', 'social'];
+const SECTION_IDS = ['hero', 'about', 'experience', 'projects', 'skills', 'building', 'social'];
 
 const TODAY = new Date().toLocaleDateString('zh-CN', {
   year: 'numeric',
@@ -48,7 +49,7 @@ export default function Navbar() {
           >
             THE SILEN TIMES
           </a>
-          <nav className="hidden md:flex items-center gap-4" aria-label="主导航">
+          <nav className="hidden lg:flex items-center gap-4" aria-label="主导航">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.href}
@@ -64,7 +65,7 @@ export default function Navbar() {
             ))}
           </nav>
           <button
-            className="md:hidden font-meta text-[0.6rem] uppercase tracking-widest text-ink/70"
+            className="lg:hidden font-meta text-[0.6rem] uppercase tracking-widest text-ink/70"
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-expanded={mobileOpen}
             aria-label="切换菜单"
@@ -73,7 +74,7 @@ export default function Navbar() {
           </button>
         </div>
         {mobileOpen && (
-          <nav className="md:hidden border-t border-ink/10 px-4 py-3 grid grid-cols-2 gap-2" aria-label="移动端导航">
+          <nav className="lg:hidden border-t border-ink/10 px-4 py-3 grid grid-cols-2 gap-2" aria-label="移动端导航">
             {NAV_ITEMS.map((item) => (
               <a
                 key={item.href}
@@ -100,18 +101,48 @@ export default function Navbar() {
           <span>武汉</span>
         </div>
       </div>
-
       <div className="max-w-6xl mx-auto px-4 pt-4 pb-2 text-center">
         <a href="#hero" onClick={(e) => handleNavClick(e, '#hero')} className="block group">
           <p className="np-kicker text-news-red mb-1">Product Engineering Gazette</p>
           <h1 className="np-masthead text-[clamp(1.75rem,5vw,3rem)] text-ink group-hover:text-news-red transition-colors">
             THE SILEN TIMES
           </h1>
-          <p className="font-meta text-[0.6rem] tracking-[0.3em] uppercase text-ink/70 mt-1">
-            {NAV_ITEMS.map((i) => i.label).join(' · ')}
-          </p>
         </a>
-        <div className="np-rule-double mt-3" />
+        <div className="np-rule-double mt-3 mb-2" />
+        <nav className="hidden md:flex items-center justify-center gap-5 flex-wrap pb-2" aria-label="主导航">
+          {NAV_ITEMS.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
+              aria-current={activeSection === item.href ? 'page' : undefined}
+              className={`np-nav-link cursor-pointer ${activeSection === item.href ? 'active font-bold' : ''}`}
+            >
+              {item.label}
+            </a>
+          ))}
+        </nav>
+        <button
+          className="md:hidden w-full py-2 font-meta text-xs uppercase tracking-widest text-ink/70"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-expanded={mobileOpen}
+        >
+          {mobileOpen ? '— 收起 —' : '— 目录 —'}
+        </button>
+        {mobileOpen && (
+          <nav className="md:hidden grid grid-cols-2 gap-2 py-3 border-t border-ink/10">
+            {NAV_ITEMS.map((item) => (
+              <a
+                key={item.href}
+                href={item.href}
+                onClick={(e) => handleNavClick(e, item.href)}
+                className={`np-nav-link py-2 text-center ${activeSection === item.href ? 'active font-bold' : ''}`}
+              >
+                {item.label}
+              </a>
+            ))}
+          </nav>
+        )}
       </div>
     </header>
   );

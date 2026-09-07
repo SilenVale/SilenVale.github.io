@@ -8,15 +8,14 @@ export default function ProjectsSection() {
   const [activeId, setActiveId] = useState(SELECTED_WORK[0].id);
   const tabListId = useId();
   const active = SELECTED_WORK.find((p) => p.id === activeId) ?? SELECTED_WORK[0];
-
   const switchProject = useCallback((id: string) => setActiveId(id), []);
 
   return (
     <NewspaperSection
       id="projects"
-      kicker="Selected Work · 代表作品"
+      kicker="Selected Work · 代表项目"
       title="代表项目"
-      subtitle="Each case: a problem, key actions, and a verifiable result"
+      subtitle="Each case documented with problem framing, actions, and verifiable outcomes"
     >
       <div ref={ref}>
         <div
@@ -35,21 +34,8 @@ export default function ProjectsSection() {
                 aria-controls={`${tabListId}-panel-${p.id}`}
                 tabIndex={selected ? 0 : -1}
                 onClick={() => switchProject(p.id)}
-                onKeyDown={(e) => {
-                  const idx = SELECTED_WORK.findIndex((x) => x.id === p.id);
-                  if (e.key === 'ArrowRight') {
-                    e.preventDefault();
-                    switchProject(SELECTED_WORK[(idx + 1) % SELECTED_WORK.length].id);
-                  }
-                  if (e.key === 'ArrowLeft') {
-                    e.preventDefault();
-                    switchProject(SELECTED_WORK[(idx - 1 + SELECTED_WORK.length) % SELECTED_WORK.length].id);
-                  }
-                }}
                 className={`font-meta text-[0.65rem] uppercase tracking-wider px-3 py-1.5 cursor-pointer transition-colors border focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-news-red ${
-                  selected
-                    ? 'bg-ink text-paper border-ink'
-                    : 'bg-transparent text-ink/70 border-ink/20 hover:border-ink/40'
+                  selected ? 'bg-ink text-paper border-ink' : 'bg-transparent text-ink/70 border-ink/20 hover:border-ink/40'
                 }`}
               >
                 {p.tabLabel}
@@ -62,38 +48,30 @@ export default function ProjectsSection() {
           role="tabpanel"
           id={`${tabListId}-panel-${active.id}`}
           aria-labelledby={`${tabListId}-tab-${active.id}`}
-          className={`animate-fade-slide-in ${isVisible ? '' : 'reveal-hidden'}`}
+          className={isVisible ? 'animate-fade-slide-in' : 'reveal-hidden'}
         >
           <div className="flex flex-wrap items-start gap-3 mb-3">
             {active.badge && <span className="np-badge">{active.badge}</span>}
             <span className="np-byline">{active.dateline}</span>
           </div>
-
           <h3 className="np-headline text-xl md:text-2xl mb-6">{active.headline}</h3>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            {[
-              { label: '起点问题', content: active.problem },
-              { label: '可验证结果', content: active.result },
-            ].map((block) => (
-              <div key={block.label} className="np-card">
-                <p className="np-byline mb-2">{block.label}</p>
-                <p className="text-sm leading-relaxed text-ink/90">{block.content}</p>
+          <div className="space-y-5 mb-6">
+            {active.blocks.map((block) => (
+              <div key={block.title} className="np-card">
+                <h4 className="font-display font-bold text-sm text-ink mb-2">{block.title}</h4>
+                {block.paragraphs.map((p) => (
+                  <p key={p.slice(0, 30)} className="text-sm leading-relaxed text-ink/85 mb-2 last:mb-0">{p}</p>
+                ))}
               </div>
             ))}
           </div>
 
-          <div className="mb-6">
-            <p className="np-byline mb-3">关键动作</p>
-            <ul className="space-y-2">
-              {active.actions.map((action) => (
-                <li key={action} className="text-sm leading-relaxed flex gap-2 text-ink/90">
-                  <span className="text-news-red shrink-0">—</span>
-                  {action}
-                </li>
-              ))}
-            </ul>
-          </div>
+          {active.role && (
+            <p className="text-sm text-ink/80 mb-4 pl-3 border-l-2 border-news-red/40">
+              <span className="font-medium">角色与协作：</span>{active.role}
+            </p>
+          )}
 
           <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-ink/10">
             {active.links.map((link) => (
@@ -102,7 +80,7 @@ export default function ProjectsSection() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex px-4 py-2 bg-ink text-paper font-meta text-[0.65rem] uppercase tracking-widest hover:bg-news-red transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-news-red"
+                className="inline-flex px-4 py-2 bg-ink text-paper font-meta text-[0.65rem] uppercase tracking-widest hover:bg-news-red transition-colors"
               >
                 {link.label} →
               </a>
