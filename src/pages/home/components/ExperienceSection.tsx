@@ -33,14 +33,14 @@ export default function ExperienceSection() {
 
             <p className="text-sm leading-relaxed text-ink/90 mb-6">{exp.intro}</p>
 
-            <div className="space-y-5 mb-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
               {exp.blocks.map((block) => (
-                <div key={block.title}>
+                <div key={block.title} className="np-card bg-white/40 h-full">
                   <h4 className="font-display font-bold text-sm text-ink mb-2 border-b border-ink/10 pb-1">
                     {block.title}
                   </h4>
                   {block.paragraphs.map((p) => (
-                    <p key={p.slice(0, 24)} className="text-sm leading-relaxed text-ink/85 mb-2">{p}</p>
+                    <p key={p.slice(0, 24)} className="text-sm leading-relaxed text-ink/85 mb-2 last:mb-0">{p}</p>
                   ))}
                   {block.bullets && (
                     <ul className="space-y-1.5 mt-2">
