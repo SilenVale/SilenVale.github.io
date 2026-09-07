@@ -9,19 +9,19 @@
 - `*` - 404 页面
 
 ## 3. Core Features
-- [ ] 顶部固定导航（滚动后模糊背景）
-- [ ] Hero 首屏（标题、副标题、标签、CTA 按钮）
-- [ ] About 关于我区块
-- [ ] Learning Path 三列卡片
-- [ ] Selected Projects 双项目卡片
-- [ ] Building in Public 记录区块
-- [ ] Beyond Work 兴趣区块
-- [ ] Connect 社媒链接区块
-- [ ] Footer 页脚
-- [ ] 滚动视差效果
-- [ ] 淡入动画（Intersection Observer）
-- [ ] 移动端完整适配
-- [ ] prefers-reduced-motion 支持
+- [x] 顶部固定导航（滚动后模糊背景）
+- [x] Hero 首屏（标题、副标题、标签、CTA 按钮）
+- [x] About 关于我区块
+- [x] Learning Path 三列卡片
+- [x] Selected Projects 双项目卡片
+- [x] Building in Public 记录区块
+- [x] Beyond Work 兴趣区块
+- [x] Connect 社媒链接区块
+- [x] Footer 页脚
+- [x] 滚动视差效果
+- [x] 淡入动画（Intersection Observer）
+- [x] 移动端完整适配
+- [x] prefers-reduced-motion 支持
 
 ## 4. Data Model Design
 无需数据库，纯静态展示页。

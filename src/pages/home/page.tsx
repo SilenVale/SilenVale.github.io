@@ -1,9 +1,12 @@
 import Navbar from './components/Navbar';
 import HeroSection from './components/HeroSection';
 import AboutSection from './components/AboutSection';
+import ExperienceSection from './components/ExperienceSection';
+import ProjectsSection from './components/ProjectsSection';
 import StackSection from './components/StackSection';
 import LearningPathSection from './components/LearningPathSection';
-import ProjectsSection from './components/ProjectsSection';
+import BuildingInPublicSection from './components/BuildingInPublicSection';
+import BeyondWorkSection from './components/BeyondWorkSection';
 import ConnectSection from './components/ConnectSection';
 import Footer from './components/Footer';
 
@@ -14,9 +17,12 @@ export default function Home() {
       <main>
         <HeroSection />
         <AboutSection />
+        <ExperienceSection />
+        <ProjectsSection />
         <StackSection />
         <LearningPathSection />
-        <ProjectsSection />
+        <BuildingInPublicSection />
+        <BeyondWorkSection />
         <ConnectSection />
       </main>
       <Footer />

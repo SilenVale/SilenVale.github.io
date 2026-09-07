@@ -1,176 +1,120 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useScrollPosition } from '@/hooks/useScrollPosition';
 import { useSmoothAnchor } from '@/hooks/useSmoothScroll';
 import { useActiveSection } from '@/hooks/useActiveSection';
 
 const NAV_ITEMS = [
-  { label: '首页', en: 'Home', href: '#hero' },
-  { label: '关于', en: 'About', href: '#about' },
-  { label: '技术栈', en: 'Stack', href: '#stack' },
-  { label: '学习路径', en: 'Path', href: '#learning' },
-  { label: '项目', en: 'Projects', href: '#projects' },
-  { label: '社媒', en: 'Social', href: '#social' },
+  { label: '头版', href: '#hero' },
+  { label: '人物', href: '#about' },
+  { label: '实习', href: '#experience' },
+  { label: '项目', href: '#projects' },
+  { label: '技能', href: '#stack' },
+  { label: '专栏', href: '#building' },
+  { label: '联系', href: '#social' },
 ];
 
-const SECTION_IDS = ['hero', 'about', 'stack', 'learning', 'projects', 'social'];
+const SECTION_IDS = ['hero', 'about', 'experience', 'projects', 'stack', 'building', 'social'];
+
+const TODAY = new Date().toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+  weekday: 'long',
+});
 
 export default function Navbar() {
   const scrollY = useScrollPosition();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const scrolled = scrollY > 40;
+  const scrolled = scrollY > 20;
   const smoothAnchor = useSmoothAnchor();
   const activeSection = useActiveSection(SECTION_IDS);
 
-  // Sliding indicator
-  const navRef = useRef<HTMLDivElement>(null);
-  const [indicator, setIndicator] = useState({ left: 0, width: 0, opacity: 0 });
-
-  const updateIndicator = useCallback(() => {
-    if (!navRef.current) return;
-    const activeIndex = NAV_ITEMS.findIndex((item) => item.href === activeSection);
-    const buttons = navRef.current.querySelectorAll('a[data-nav-item]');
-    const btn = buttons[activeIndex] as HTMLElement | undefined;
-    if (btn) {
-      const parentRect = navRef.current.getBoundingClientRect();
-      const btnRect = btn.getBoundingClientRect();
-      setIndicator({
-        left: btnRect.left - parentRect.left + navRef.current.scrollLeft,
-        width: btnRect.width,
-        opacity: 1,
-      });
-    }
-  }, [activeSection]);
-
   useEffect(() => {
-    updateIndicator();
-    const handleResize = () => updateIndicator();
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, [updateIndicator]);
-
-  useEffect(() => {
-    if (mobileOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = mobileOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [mobileOpen]);
 
-  const handleNavClick = (
-    e: React.MouseEvent<HTMLAnchorElement>,
-    href: string
-  ) => {
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
     setMobileOpen(false);
     smoothAnchor(e, href);
   };
 
   return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-[280ms] ease-out ${
-        scrolled
-          ? 'bg-background-50/85 backdrop-blur-[20px] border-b border-background-200/50'
-          : 'bg-transparent'
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled ? 'bg-paper/95 backdrop-blur-sm shadow-[0_1px_0_var(--rule)]' : 'bg-paper'
       }`}
     >
-      <div className="max-w-5xl mx-auto px-5 md:px-8 h-16 flex items-center justify-between">
+      {/* Dateline bar */}
+      <div className="border-b border-ink/10 bg-paper-dark/50">
+        <div className="max-w-6xl mx-auto px-4 py-1.5 flex items-center justify-between text-[0.62rem] font-meta uppercase tracking-widest text-ink-muted">
+          <span>Vol. MMXXVI · No. 09</span>
+          <span className="hidden sm:inline">{TODAY}</span>
+          <span>武汉 · 中国</span>
+        </div>
+      </div>
+
+      {/* Masthead */}
+      <div className="max-w-6xl mx-auto px-4 pt-4 pb-2 text-center">
         <a
           href="#hero"
           onClick={(e) => handleNavClick(e, '#hero')}
-          className="text-base font-semibold text-foreground-950 whitespace-nowrap cursor-pointer hover:text-primary-500 transition-colors duration-200"
+          className="block cursor-pointer group"
         >
-          Silen
+          <p className="np-kicker text-news-red mb-1">Est. 2024 · Product Engineering Gazette</p>
+          <h1 className="np-masthead text-[clamp(2rem,6vw,3.5rem)] text-ink group-hover:text-news-red transition-colors">
+            THE SILEN TIMES
+          </h1>
+          <p className="font-meta text-[0.65rem] tracking-[0.35em] uppercase text-ink-muted mt-1">
+            天笑星辰 · Silen · SilenVale
+          </p>
         </a>
+        <div className="np-rule-double mt-3 mb-2" />
+      </div>
 
-        {/* Desktop nav */}
-        <div
-          ref={navRef}
-          className="hidden md:flex items-center gap-1 relative"
-        >
-          {NAV_ITEMS.map((item) => {
-            const isActive = activeSection === item.href;
-            return (
-              <a
-                key={item.href}
-                data-nav-item
-                href={item.href}
-                onClick={(e) => handleNavClick(e, item.href)}
-                className={`relative px-3 py-2 text-sm whitespace-nowrap cursor-pointer transition-colors duration-200 rounded-md ${
-                  isActive
-                    ? 'text-primary-600 font-medium'
-                    : 'text-foreground-600 hover:text-foreground-900'
-                }`}
-              >
-                {item.label}
-              </a>
-            );
-          })}
-          {/* Sliding underline */}
-          <div
-            className="absolute bottom-0 h-[2px] bg-primary-500 rounded-full transition-all duration-300 ease-out pointer-events-none"
-            style={{
-              left: indicator.left,
-              width: indicator.width,
-              opacity: indicator.opacity,
-            }}
-          />
+      {/* Nav */}
+      <nav className="max-w-6xl mx-auto px-4 pb-3">
+        <div className="hidden md:flex items-center justify-center gap-6 flex-wrap">
+          {NAV_ITEMS.map((item) => (
+            <a
+              key={item.href}
+              href={item.href}
+              onClick={(e) => handleNavClick(e, item.href)}
+              className={`np-nav-link cursor-pointer whitespace-nowrap ${
+                activeSection === item.href ? 'active font-bold' : ''
+              }`}
+            >
+              {item.label}
+            </a>
+          ))}
         </div>
 
-        {/* Mobile hamburger */}
         <button
-          className="md:hidden w-9 h-9 flex items-center justify-center cursor-pointer rounded-lg hover:bg-background-200/50 transition-colors duration-200"
+          className="md:hidden w-full py-2 font-meta text-xs uppercase tracking-widest text-ink-muted"
           onClick={() => setMobileOpen(!mobileOpen)}
           aria-label="Toggle menu"
         >
-          <div className="flex flex-col gap-[5px]">
-            <span
-              className={`block w-[18px] h-[1.5px] bg-foreground-800 transition-all duration-300 ${
-                mobileOpen ? 'rotate-45 translate-y-[7px]' : ''
-              }`}
-            />
-            <span
-              className={`block w-[18px] h-[1.5px] bg-foreground-800 transition-all duration-300 ${
-                mobileOpen ? 'opacity-0' : ''
-              }`}
-            />
-            <span
-              className={`block w-[18px] h-[1.5px] bg-foreground-800 transition-all duration-300 ${
-                mobileOpen ? '-rotate-45 -translate-y-[7px]' : ''
-              }`}
-            />
-          </div>
+          {mobileOpen ? '— 收起目录 —' : '— 展开目录 —'}
         </button>
-      </div>
 
-      {/* Mobile menu */}
-      <div
-        className={`md:hidden overflow-hidden transition-all duration-400 ${
-          mobileOpen ? 'max-h-[420px]' : 'max-h-0'
-        }`}
-      >
-        <div className="bg-background-50/95 backdrop-blur-[20px] border-b border-background-200/50 px-5 pb-5 pt-1 flex flex-col gap-1">
-          {NAV_ITEMS.map((item) => {
-            const isActive = activeSection === item.href;
-            return (
+        <div className={`md:hidden overflow-hidden transition-all ${mobileOpen ? 'max-h-96' : 'max-h-0'}`}>
+          <div className="grid grid-cols-2 gap-2 py-3 border-t border-ink/10">
+            {NAV_ITEMS.map((item) => (
               <a
                 key={item.href}
                 href={item.href}
                 onClick={(e) => handleNavClick(e, item.href)}
-                className={`text-sm py-2.5 px-3 rounded-lg cursor-pointer transition-colors duration-200 ${
-                  isActive
-                    ? 'bg-primary-50 text-primary-700 font-medium'
-                    : 'text-foreground-600 hover:bg-background-100 hover:text-foreground-900'
+                className={`np-nav-link py-2 text-center cursor-pointer ${
+                  activeSection === item.href ? 'active font-bold' : ''
                 }`}
               >
                 {item.label}
-                <span className="ml-2 text-xs text-foreground-400">{item.en}</span>
               </a>
-            );
-          })}
+            ))}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+      <div className="np-rule-thick" />
+    </header>
   );
 }

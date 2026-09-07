@@ -1,75 +1,96 @@
 import { useSmoothAnchor } from '@/hooks/useSmoothScroll';
 import avatar from '@/assets/avatar.jpg';
+import { PROFILE } from '@/data/profile';
 
 export default function HeroSection() {
   const smoothAnchor = useSmoothAnchor();
 
   return (
-    <section
-      id="hero"
-      className="relative min-h-screen flex items-center bg-background-50 overflow-hidden"
-    >
-      {/* Warm glow background */}
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-[500px] h-[500px] rounded-full bg-primary-100/25 blur-[120px] hero-glow" />
-        <div className="absolute bottom-1/4 -right-20 w-[400px] h-[400px] rounded-full bg-accent-50/20 blur-[100px] hero-glow" style={{ animationDelay: '3s' }} />
-      </div>
+    <section id="hero" className="bg-paper border-b-2 border-ink">
+      <div className="max-w-6xl mx-auto px-4 py-10 md:py-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10">
+          {/* Main headline column */}
+          <div className="lg:col-span-8 animate-fade-in-up">
+            <p className="np-kicker text-news-red mb-3">Front Page · 头版头条</p>
+            <h2 className="np-headline text-[clamp(2rem,5vw,3.25rem)] text-ink mb-4">
+              {PROFILE.tagline}
+            </h2>
+            <p className="np-deck text-base md:text-lg mb-6 max-w-2xl">
+              {PROFILE.subtitle} — {PROFILE.location}
+            </p>
 
-      <div className="relative z-10 w-full max-w-4xl mx-auto px-6 md:px-10 pt-24 pb-16">
-        {/* Avatar */}
-        <div className="mb-8 animate-fade-in-up">
-          <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-background-200 border-2 border-background-300/60 flex items-center justify-center overflow-hidden">
-            <img
-              src={avatar}
-              alt="天笑星辰头像"
-              className="w-full h-full object-cover"
-            />
+            <div className="np-columns-2 text-sm md:text-[0.95rem] leading-relaxed text-ink/85 mb-8">
+              <p className="np-drop-cap mb-4">
+                我是{PROFILE.name}（{PROFILE.alias}），{PROFILE.education.school}{PROFILE.education.major}大三在读。
+                正在把 AI 产品判断、Agent Contract 设计与前端 POC 工程串成一条可验收的发布链路。
+              </p>
+              <p>
+                从 AdventureX 黑客松的 Experience Card，到 ViceMe 的创作者平台 Contract，再到本地优先的 Silen AI Workbench——
+                我关心的不只是模型能力，而是想法如何被拆解、验证、实现，并最终变成真实可用的产品。
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <a
+                href="#projects"
+                onClick={(e) => smoothAnchor(e, '#projects')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-ink text-paper font-meta text-xs uppercase tracking-widest cursor-pointer hover:bg-news-red transition-colors"
+              >
+                阅读项目报道
+              </a>
+              <a
+                href="#experience"
+                onClick={(e) => smoothAnchor(e, '#experience')}
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-ink font-meta text-xs uppercase tracking-widest cursor-pointer hover:border-news-red hover:text-news-red transition-colors"
+              >
+                实习经历
+              </a>
+            </div>
           </div>
-        </div>
 
-        {/* Name & ID */}
-        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground-950 mb-1 tracking-tight animate-fade-in-up-delay-1">
-          天笑星辰
-        </h1>
-        <p className="text-sm text-foreground-500 mb-6 animate-fade-in-up-delay-1">
-          Silen · <span className="text-foreground-400">SilenVale</span>
-        </p>
+          {/* Sidebar */}
+          <aside className="lg:col-span-4 animate-fade-in-up-delay-1">
+            <div className="border border-ink/15 bg-white/30 p-5">
+              <figure className="mb-4">
+                <div className="aspect-[4/5] max-w-[200px] mx-auto overflow-hidden border-2 border-ink">
+                  <img src={avatar} alt={`${PROFILE.name} 肖像`} className="w-full h-full object-cover np-halftone" />
+                </div>
+                <figcaption className="np-byline text-center mt-2">
+                  Portrait · {PROFILE.title}
+                </figcaption>
+              </figure>
 
-        {/* Main title */}
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-semibold text-foreground-900 mb-5 leading-snug animate-fade-in-up-delay-2">
-          把想法做成可验证的 AI 产品
-        </h2>
+              <div className="np-rule-single mb-4" />
 
-        {/* Subtitle */}
-        <p className="text-sm md:text-base text-foreground-600 leading-relaxed max-w-2xl mb-3 animate-fade-in-up-delay-2">
-          华中科技大学计算机科学与技术专业大二学生，正在探索 AI 产品、AI Native 产品工程与个人构建。
-        </p>
-        <p className="text-sm md:text-base text-foreground-500 leading-relaxed max-w-2xl mb-10 animate-fade-in-up-delay-2">
-          我用产品判断、AI 协作开发和结构化知识管理，把问题推进到可运行的原型。
-        </p>
-
-        {/* CTAs */}
-        <div className="flex items-center gap-4 animate-fade-in-up-delay-3">
-          <a
-            href="#projects"
-            onClick={(e) => smoothAnchor(e, '#projects')}
-            className="group inline-flex items-center gap-2 px-6 py-3 bg-primary-500 text-background-50 text-sm font-medium rounded-lg cursor-pointer transition-all duration-[280ms] ease-out hover:bg-primary-600 hover:-translate-y-[3px] hover:shadow-md active:scale-[0.97] whitespace-nowrap"
-          >
-            查看项目
-            <span className="inline-block transition-transform duration-[280ms] group-hover:translate-x-[3px]">
-              <i className="ri-arrow-down-line w-4 h-4 flex items-center justify-center" />
-            </span>
-          </a>
-          <a
-            href="#about"
-            onClick={(e) => smoothAnchor(e, '#about')}
-            className="group inline-flex items-center gap-2 px-6 py-3 border border-foreground-300/50 text-foreground-700 text-sm font-medium rounded-lg cursor-pointer transition-all duration-[280ms] ease-out hover:bg-primary-50 hover:border-primary-300 hover:text-primary-600 hover:-translate-y-[3px] hover:shadow-sm active:scale-[0.97] whitespace-nowrap bg-transparent"
-          >
-            了解我
-            <span className="inline-block transition-transform duration-[280ms] group-hover:translate-x-[3px]">
-              <i className="ri-arrow-down-line w-4 h-4 flex items-center justify-center" />
-            </span>
-          </a>
+              <div className="space-y-3 text-sm">
+                <div>
+                  <p className="np-byline mb-1">Education</p>
+                  <p className="font-medium">{PROFILE.education.school}</p>
+                  <p className="text-ink-muted text-xs">{PROFILE.education.major}</p>
+                  <p className="text-ink-muted text-xs">{PROFILE.education.gpa} · {PROFILE.education.english}</p>
+                </div>
+                <div>
+                  <p className="np-byline mb-1">Honors</p>
+                  <ul className="space-y-1">
+                    {PROFILE.honors.map((h) => (
+                      <li key={h} className="text-xs leading-snug flex gap-1.5">
+                        <span className="text-news-red shrink-0">▪</span>{h}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div>
+                  <p className="np-byline mb-1">Contact</p>
+                  <a href={`mailto:${PROFILE.contact.email}`} className="text-xs text-news-red hover:underline block">
+                    {PROFILE.contact.email}
+                  </a>
+                  <a href={PROFILE.contact.github} target="_blank" rel="noopener noreferrer" className="text-xs text-ink-muted hover:text-news-red">
+                    github.com/{PROFILE.handle}
+                  </a>
+                </div>
+              </div>
+            </div>
+          </aside>
         </div>
       </div>
     </section>

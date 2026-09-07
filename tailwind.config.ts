@@ -7,6 +7,11 @@ export default {
     theme: {
       extend: {
         colors: {
+          paper: '#f4efe4',
+          'paper-dark': '#e8e0d2',
+          ink: '#1a1612',
+          'ink-muted': '#5c5348',
+          'news-red': '#9b1c1c',
           background: {
             50: 'oklch(var(--background-50) / <alpha-value>)',
             100: 'oklch(var(--background-100) / <alpha-value>)',
@@ -74,11 +79,13 @@ export default {
           },
         },
         fontFamily: {
+          display: ['var(--font-display)'],
+          serif: ['var(--font-body)'],
+          meta: ['var(--font-meta)'],
           sans: ['var(--font-body)'],
           body: ['var(--font-body)'],
-          heading: ['var(--font-heading)'],
-          display: ['var(--font-heading)'],
-          label: ['var(--font-label)'],
+          heading: ['var(--font-display)'],
+          label: ['var(--font-meta)'],
         },
       },
     },
