@@ -1,6 +1,7 @@
 import { useSmoothAnchor } from '@/hooks/useSmoothScroll';
-import avatar from '@/assets/avatar.jpg';
 import { PROFILE } from '@/data/profile';
+
+const AVATAR = '/avatar.jpg';
 
 export default function HeroSection() {
   const smoothAnchor = useSmoothAnchor();
@@ -53,7 +54,7 @@ export default function HeroSection() {
             <div className="border border-ink/15 bg-white/30 p-5">
               <figure className="mb-4">
                 <div className="aspect-[4/5] max-w-[200px] mx-auto overflow-hidden border-2 border-ink">
-                  <img src={avatar} alt={`${PROFILE.name} 肖像`} className="w-full h-full object-cover np-halftone" />
+                  <img src={AVATAR} alt={`${PROFILE.name} 肖像`} className="w-full h-full object-cover np-halftone" />
                 </div>
                 <figcaption className="np-byline text-center mt-2">
                   Portrait · {PROFILE.title}
@@ -84,8 +85,16 @@ export default function HeroSection() {
                   <a href={`mailto:${PROFILE.contact.email}`} className="text-xs text-news-red hover:underline block">
                     {PROFILE.contact.email}
                   </a>
-                  <a href={PROFILE.contact.github} target="_blank" rel="noopener noreferrer" className="text-xs text-ink-muted hover:text-news-red">
+                  <a href={PROFILE.contact.github} target="_blank" rel="noopener noreferrer" className="text-xs text-ink-muted hover:text-news-red block">
                     github.com/{PROFILE.handle}
+                  </a>
+                  <a
+                    href={PROFILE.contact.resume}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block mt-3 px-3 py-1.5 border border-ink/30 font-meta text-[0.6rem] uppercase tracking-widest hover:bg-news-red hover:text-paper hover:border-news-red transition-colors"
+                  >
+                    ↓ 下载 PDF 简历
                   </a>
                 </div>
               </div>

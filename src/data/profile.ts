@@ -11,6 +11,7 @@ export const PROFILE = {
     email: '2983155117@qq.com',
     github: 'https://github.com/SilenVale',
     xiaohongshu: 'https://www.xiaohongshu.com/user/profile/674d652d000000001d02ed1b',
+    resume: '/resume-silen-product-engineer.pdf',
   },
   education: {
     school: '华中科技大学',

@@ -3,9 +3,6 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
-    paths-ignore:
-      - 'index.html'
-      - 'assets/**'
   workflow_dispatch:
 
 permissions:
@@ -33,6 +30,13 @@ jobs:
 
       - run: npm ci
       - run: npm run build
+
+      - name: Verify static assets
+        run: |
+          test -f out/index.html
+          test -f out/avatar.jpg
+          test -f out/resume-silen-product-engineer.pdf
+          ls -la out/
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
