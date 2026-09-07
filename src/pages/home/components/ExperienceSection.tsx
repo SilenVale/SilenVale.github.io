@@ -8,9 +8,9 @@ export default function ExperienceSection() {
   return (
     <NewspaperSection
       id="experience"
-      kicker="Business · 商业版"
+      kicker="Experience · 实习经历"
       title="实习经历"
-      subtitle="From growth metrics to agent contracts — real product engineering in production contexts"
+      subtitle="Real product environments, real metrics, real delivery"
       className="bg-paper-dark/30"
     >
       <div ref={ref} className="space-y-10">
@@ -23,33 +23,24 @@ export default function ExperienceSection() {
               <h3 className="np-headline text-xl md:text-2xl">{exp.company}</h3>
               <span className="np-byline">{exp.period}</span>
             </div>
-            <p className="text-news-red font-medium text-sm mb-1">{exp.role}</p>
-            <p className="np-deck text-sm mb-3">{exp.project}</p>
-            <div className="flex flex-wrap gap-2 mb-4">
-              {exp.tags.map((t) => (
-                <span key={t} className="np-tag text-news-red border-news-red/30">{t}</span>
-              ))}
+            <p className="text-news-red font-medium text-sm mb-4">{exp.role}</p>
+
+            <div className="np-card bg-white/50 mb-5 border-l-[3px] border-l-news-red">
+              <p className="np-byline mb-1">核心成果</p>
+              <p className="text-sm font-medium leading-relaxed">{exp.leadResult}</p>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-              <div className="lg:col-span-7">
-                <p className="text-sm leading-relaxed mb-4">{exp.summary}</p>
-                <ul className="space-y-2">
-                  {exp.highlights.map((h) => (
-                    <li key={h} className="text-sm leading-relaxed flex gap-2">
-                      <span className="text-news-red shrink-0 font-bold">—</span>
-                      <span>{h}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <aside className="lg:col-span-5">
-                <div className="np-card bg-white/50 h-full">
-                  <p className="np-byline mb-2">Results · 项目结果</p>
-                  <p className="text-sm leading-relaxed italic">{exp.result}</p>
-                </div>
-              </aside>
-            </div>
+            <p className="text-sm text-ink/75 mb-4">{exp.context}</p>
+
+            <ul className="space-y-2">
+              {exp.highlights.map((h) => (
+                <li key={h} className="text-sm leading-relaxed flex gap-2 text-ink/90">
+                  <span className="text-news-red shrink-0">—</span>
+                  {h}
+                </li>
+              ))}
+            </ul>
+
             {idx < EXPERIENCES.length - 1 && <div className="np-rule-single mt-10" />}
           </article>
         ))}

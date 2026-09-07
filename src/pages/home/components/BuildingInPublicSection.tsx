@@ -1,6 +1,6 @@
 import { useRevealAnimation } from '@/hooks/useRevealAnimation';
 import { NewspaperSection } from './NewspaperSection';
-import { BUILD_LOG } from '@/data/profile';
+import { BUILD_STORIES } from '@/data/profile';
 
 export default function BuildingInPublicSection() {
   const { ref, isVisible } = useRevealAnimation();
@@ -8,32 +8,42 @@ export default function BuildingInPublicSection() {
   return (
     <NewspaperSection
       id="building"
-      kicker="Column · 公开构建专栏"
+      kicker="Column · 公开构建"
       title="Building in Public"
-      subtitle="把产品决策和构建过程变成可被旁观者理解的故事"
+      subtitle="Real stories with a problem, a choice, and an outcome"
       className="bg-paper-dark/30"
     >
-      <div ref={ref} className="max-w-3xl mx-auto">
-        {BUILD_LOG.map((entry, idx) => (
+      <div ref={ref} className="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {BUILD_STORIES.map((story, idx) => (
           <article
-            key={entry.headline}
-            className={`py-5 ${idx > 0 ? 'border-t border-ink/10' : ''} ${
+            key={story.headline}
+            className={`np-card flex flex-col h-full ${
               isVisible
                 ? idx === 0
                   ? 'animate-fade-in-up'
                   : idx === 1
                     ? 'animate-fade-in-up-delay-1'
-                    : idx === 2
-                      ? 'animate-fade-in-up-delay-2'
-                      : 'animate-fade-in-up-delay-3'
+                    : 'animate-fade-in-up-delay-2'
                 : 'reveal-hidden'
             }`}
           >
-            <div className="flex items-baseline gap-4 mb-2">
-              <time className="np-byline shrink-0">{entry.date}</time>
-              <h3 className="font-display font-bold text-lg">{entry.headline}</h3>
-            </div>
-            <p className="text-sm leading-relaxed text-ink/80 pl-0 md:pl-16">{entry.excerpt}</p>
+            <time className="np-byline mb-2">{story.date}</time>
+            <h3 className="font-display font-bold text-base mb-3 leading-snug">{story.headline}</h3>
+            <p className="text-xs text-ink/70 mb-2">
+              <span className="font-medium text-ink/85">问题：</span>
+              {story.problem}
+            </p>
+            <p className="text-sm leading-relaxed text-ink/90 flex-1 mb-4">{story.takeaway}</p>
+            {story.link && (
+              <a
+                href={story.link.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-meta text-[0.65rem] uppercase tracking-widest text-news-red hover:underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-news-red"
+              >
+                {story.link.label} →
+              </a>
+            )}
           </article>
         ))}
       </div>
